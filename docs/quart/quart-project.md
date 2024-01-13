@@ -1,3 +1,6 @@
+### quart official site
+- 
+
 ### virtial environment set-up (window os)
 ```
 python -m venv quart-env
@@ -7,6 +10,7 @@ python -m venv quart-env
 pip install python-dotenv
 ```
 ### 1st-phase-requirements
+- quart jwt reference (https://quart-jwt-extended.readthedocs.io/en/latest/tokens_in_cookies/)
 ```
 pip install quart quart-cors quart_jwt_extended
 ```

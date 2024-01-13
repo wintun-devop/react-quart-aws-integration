@@ -20,10 +20,18 @@ def create_app():
     #configure cors
     app = cors(app, allow_origin="*")
     #configure jwt
+    # Configure application to store JWTs in cookies
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    # Only allow JWT cookies to be sent over https. In production, this
+    # should likely be True
+    app.config["JWT_COOKIE_SECURE"] = False
     app.config['JWT_SECRET_KEY'] = server_config.JWT_SECRET_KEY
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=10)  # Adjust as needed
     app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=10)  # Adjust as needed
     app.config['JWT_REFRESH_TOKEN_ENABLED'] = True
+    # Enable csrf double submit protection. See this for a thorough
+    # explanation: http://www.redotheweb.com/2015/11/09/api-security.html
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = True
     JWTManager(app)
     #database config
     #bcrypt hasing

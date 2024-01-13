@@ -9,4 +9,4 @@ async def index():
         "status":"success",
         "message":"api is working ok!"
     }
-    return await make_response(jsonify(response),201)
+    return await make_response(jsonify(response))

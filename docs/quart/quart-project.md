@@ -11,6 +11,11 @@ pip install python-dotenv
 pip install quart quart-cors quart_jwt_extended
 ```
 
+### quart bcrypt for password hasing
+- reference (https://quart-bcrypt.readthedocs.io/en/latest/)
+```
+pip install quart-bcrypt
+```
 ### quart run with default port number 5000
 ```
 quart run --reload
@@ -19,3 +24,7 @@ quart run --reload
 ```
 quart run --port 8000 --reload 
 ```
+
+### create api step-by-step
+- blue print on route
+- regiseter blue-print on app

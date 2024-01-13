@@ -10,3 +10,12 @@ pip install python-dotenv
 ```
 pip install quart quart-cors quart_jwt_extended
 ```
+
+### quart run with default port number 5000
+```
+quart run --reload
+```
+### quart run with specific port number 8000
+```
+quart run --port 8000 --reload 
+```

@@ -12,7 +12,8 @@ from quart_jwt_extended import (
                                 create_access_token,
                                 create_refresh_token,
                                 unset_jwt_cookies,
-                                jwt_refresh_token_required
+                                jwt_refresh_token_required,
+                                get_jwt_identity
                                 )
 
 #declare blue print
@@ -40,11 +41,37 @@ async def login():
             response=jsonify({**token_attributes,"access_token": access_token,"refresh_token": refresh_token,"authenticated":True})
             set_access_cookies(response,access_token)
             set_refresh_cookies(response,refresh_token)
-            return response,201
+            return await make_response(response,201)
         else:
             return make_response(jsonify({'status':'fail','msg':'email or password incorrect.'}),400)
     except Exception as e:
         print(e)
         error1={"status":"fail","message":"internal server error"}
         return await make_response(jsonify(error1),500)
+    
+    
+@auth_bp.route('/refresh', methods=['GET'])
+@jwt_refresh_token_required  #Require a valid refresh token for this route
+async def refresh():
+    # Set the JWT access cookie in the response
+    try:
+        current_user = get_jwt_identity()
+        # print("referse attribute",current_user)
+        access_token = create_access_token(identity=current_user,fresh=False)
+        refresh_token = create_refresh_token(identity=current_user)
+        respone = jsonify({'refresh': True,'access_token':access_token,'refresh_token':refresh_token,**current_user})
+        print("the response",respone)
+        set_access_cookies(respone, access_token)
+        set_refresh_cookies(respone,refresh_token)
+        return await make_response(respone, 200)
+    except Exception as e:
+        # print(e)
+        return await make_response(jsonify({"status":"Login expired!","msg":"Login Again!"}),400)
+    
+    
+@auth_bp.route('/logout', methods=['DELETE'])
+def logout():
+    respone = jsonify({"authenticated":False})
+    unset_jwt_cookies(respone)
+    return respone, 200
     

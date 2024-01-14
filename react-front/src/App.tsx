@@ -1,6 +1,6 @@
 // import Login from "./screens/auth/login/login"
-import Register from "./screens/auth/register/register"
-// import Dashboard from "./screens/dashboard/dashboard"
+// import Register from "./screens/auth/register/register"
+import Dashboard from "./screens/dashboard/dashboard"
 
 
 
@@ -11,8 +11,8 @@ const  App = () => {
   return (
     <>
       {/* <Login /> */}
-      <Register />
-      {/* <Dashboard /> */}
+      {/* <Register /> */}
+      <Dashboard />
     </>
   )
   

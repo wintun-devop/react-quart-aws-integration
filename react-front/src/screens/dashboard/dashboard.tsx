@@ -1,13 +1,15 @@
 import React from 'react';
-import { Typography } from "@mui/material";
-
+import { Box } from '@mui/material';
+import MainTab from '../../components/main-tab';
+import Header from '../../components/header';
 
 
 const Dashboard:React.FC = () =>{
     return(
-        <>
-            <Typography>Dashboard Page 123</Typography>
-        </>
+       <Box>
+            <Header />
+            <MainTab />
+       </Box>
     )
 
 }

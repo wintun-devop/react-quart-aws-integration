@@ -1,11 +1,12 @@
+import React from 'react';
 import { Typography } from "@mui/material";
 
 
 
-const Dashboard = () =>{
+const Dashboard:React.FC = () =>{
     return(
         <>
-            <Typography>Dashboard Page</Typography>
+            <Typography>Dashboard Page 123</Typography>
         </>
     )
 

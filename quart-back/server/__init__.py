@@ -9,8 +9,6 @@ from datetime import timedelta
 from quart_bcrypt import Bcrypt
 #server configuration
 from . import server_config
-
-
 #declare bcrypt global instance
 bcrypt = Bcrypt()
 

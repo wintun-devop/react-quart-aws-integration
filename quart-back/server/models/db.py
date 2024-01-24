@@ -12,7 +12,7 @@ db_user=os.getenv("DB_USER")
 db_password=os.getenv("DB_PASSWORD")
 db_host=os.getenv("DB_HOST")
 
-db_link = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
+db_link = f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}/{db_name}"
 
 engine = create_engine(db_link)
 Session = sessionmaker(bind=engine)

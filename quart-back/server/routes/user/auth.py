@@ -15,6 +15,11 @@ from quart_jwt_extended import (
                                 jwt_refresh_token_required,
                                 get_jwt_identity
                                 )
+#import db session for operation
+from server.models.db import db_session
+from server.models import User
+from sqlalchemy.exc import SQLAlchemyError
+
 
 #declare blue print
 auth_bp = Blueprint('auth',__name__,url_prefix=AUTH_API_LINK)
@@ -25,17 +30,17 @@ async def login():
     try:
         user_email=req_body["user_email"]
         user_password=req_body["user_password"]
-        print("userpass",user_password)
-        hash_pass = "$2b$12$IIkowUn4Xnxe8d4xVs1/Pe4V3bYUGXq64pfHUEVV98cfWbA0oHeum"
+        searchUser = db_session.query(User).filter_by(email=user_email).first()
+        """ if not exist email """
+        if searchUser is None:
+            return await make_response(jsonify({"status":"fail","msg":"not found"}),400)
+        hash_pass = searchUser.password
+        # print("userpass",user_password,"hash pass",hash_pass)
         isPasswordCorrect =await bcrypt.async_check_password_hash(hash_pass,user_password)
-        print(isPasswordCorrect)
-        response = {
-            "user_email":user_email,
-            "isPasswordCorrect":isPasswordCorrect
-        }
+        """ if password is correct  """
         if isPasswordCorrect:
             # create the jwt and go make response
-            token_attributes={"id":"dfuakflaf","name":"test_name","email":user_email}
+            token_attributes={"id":searchUser.id,"username":searchUser.username,"email":user_email,"profile":searchUser.profile}
             access_token = create_access_token(identity=token_attributes,fresh=True)
             refresh_token = create_refresh_token(identity=token_attributes)
             response=jsonify({**token_attributes,"access_token": access_token,"refresh_token": refresh_token,"authenticated":True})
@@ -43,7 +48,7 @@ async def login():
             set_refresh_cookies(response,refresh_token)
             return await make_response(response,201)
         else:
-            return make_response(jsonify({'status':'fail','msg':'email or password incorrect.'}),400)
+            return await make_response(jsonify({'status':'fail','msg':'email or password incorrect.'}),400)
     except Exception as e:
         print(e)
         error1={"status":"fail","message":"internal server error"}

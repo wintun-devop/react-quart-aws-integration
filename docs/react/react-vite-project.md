@@ -16,3 +16,11 @@ npm i react-hook-form
 ```
 npm i axios
 ```
+
+### react router doom
+```
+npm i react-router-dom
+```
+```
+npm i -D @types/react-router-dom
+```

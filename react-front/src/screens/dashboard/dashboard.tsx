@@ -4,7 +4,9 @@ import MainTab from '../../components/main-tab';
 import Header from '../../components/header';
 
 
-const Dashboard:React.FC = () =>{
+type Props = {}
+
+const Dashboard = (props) =>{
     return(
        <Box>
             <Header />

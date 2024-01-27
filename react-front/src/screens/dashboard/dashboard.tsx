@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Box } from '@mui/material';
 import MainTab from '../../components/main-tab';
 import Header from '../../components/header';

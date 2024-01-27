@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import { 
     // FormProvider, 
     useForm 
@@ -14,6 +14,10 @@ import {
 } from '@mui/material';
 import { FormInputTextField } from '../../../components/custom-hook-form-components/form-input-text-filed';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
+// Auth
+import { AuthContext } from '../../../context/auth-context';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 
     interface IFormInput {
@@ -39,8 +43,13 @@ import LockPersonIcon from '@mui/icons-material/LockPerson';
     
 
 
-const Login:React.FC = () =>{
+const Login = () =>{
+    const {authenticated,setAuthenticated}=useContext(AuthContext);
+    const {authData,setAuthData}=useContext(AuthContext);
     const methods = useForm<IFormInput>({ defaultValues: defaultValues });
+    const navigate = useNavigate()
+    console.log(authData)
+    console.log(authenticated)
     const { 
         handleSubmit, 
         reset, 
@@ -49,10 +58,33 @@ const Login:React.FC = () =>{
         // watch 
     } = methods;
 
-    const loginSubmit = (data: IFormInput) => {
-        console.log(data)
+    const loginSubmit =async (data: IFormInput) => {
+        // console.log(data)
+        const {emailValue,passwordValue} = data;
+        const user_email = emailValue;
+        const user_password = passwordValue;
+        // console.log({user_email,user_password})
+        // axios.post("http://127.0.0.1:5000/api/v1/auth/login",{user_email,user_password})
+        // .then(r=>{
+        //     const {data:{authenticated,...rest}} = r
+        //     console.log("inside",authenticated)
+        //     console.log("inside",rest)
+        //     setAuthenticated(authenticated)
+        //     setAuthData(rest)
+        //     navigate('/')
+        // })
+        // .catch(e=>console.log("error",e))
+        try{
+            const result = await axios.post("http://127.0.0.1:5000/api/v1/auth/login",{user_email,user_password});
+            if(result.status===201){
+                setAuthenticated(result.data.authenticated);
+                setAuthData(result.data)
+                navigate('/')
+            }
+        }catch(e){
+            console.log("error",e)
+        }
     }
-    
     return(
     <Box 
     sx={{

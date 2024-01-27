@@ -4,7 +4,7 @@ import Routes from './routes';
 
 // import Login from "./screens/auth/login/login"
 // import Register from "./screens/auth/register/register"
-import Dashboard from "./screens/dashboard/dashboard"
+// import Dashboard from "./screens/dashboard/dashboard"
 
 
 
